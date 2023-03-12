@@ -1,0 +1,213 @@
+<!DOCTYPE html><html lang="en"><head><meta name="bing-analysis-id" content="1k362r342u2r3430"><meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="keywords" content="ChatGPT,ChatGPT中文网,OpenAi,ai智能">
+  <meta name="description" content="ChatGPT是一款基于自然语言生成（NLG）和认知技术（AI）的对话引擎，可用于涵盖从智能对话到富媒体技术（文本/语音/视频）的内容的各种用例的实现。 支持的平台：Facebook，Microsoft，Google，IOS 和 Android。 开发者可以使用它构建自动化、有趣、情境感知的聊天机器人，以实现灵活的交互式对话系统。
+">
+  <link href="img/speech.png" rel="icon">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/wenda.css">
+
+  <title>ChatGPT-Orange</title>
+</head>
+<body>
+  <div class="layout-wrap">
+    <header class="layout-header">
+      <div class="container" data-flex="main:justify cross:center">
+        <div class="header-logo">
+          <h2 class="logo"><a class="links" href="#" title="ChatGPT中文网"><span class="logo-title" title="ChatGPT中文网">ChatGPT-Orange</span></a></h2>
+        </div>
+        <div class="header-logo">
+          <h2 class="logo"><a class="links" target="_blank" href="https://ai.2151512.com" title="My AI"><span class="logo-title" title="My AI">My AI</span></a></h2>
+        </div>
+        
+      </div>
+    </header>
+    <div class="layout-content">
+      <div class="container">
+        <article class="article" id="article">
+          <div class="article-box">
+              <div style="color:#9ca2a8">
+                  由于访问量激增，现开启访问限制，每个访客每天免费可提问五次，每个回答最多200字符（100字左右）。<br>
+                  需要单日无限次数提问，可自己替换API接口。
+              </div>
+              <div class="precast-block" data-flex="main:left">
+							<div class="input-group">
+								<span style="text-align: center;color:#9ca2a8">&nbsp;&nbsp;ChatGPT版本：</span>
+								<select id="id" class="btn-default form-control" style="background-color: rgb(164,165,179);min-width:100px;max-width:120px">
+									<option value="1">ChatGPT(综合版)</option>
+									<option value="2">ChatGPT(图像版)</option>
+								</select><br>
+								<span style="text-align: center;color:#9ca2a8">&nbsp;&nbsp;输入你的APIKey：</span>
+								<input id="apikey" style="background-color: rgb(164,165,179);min-width:100px;max-width:120px">
+								<button  style="" id="button2" onclick='keyclick()'>确定</button>
+								<span style="text-align: center;color:#9ca2a8">&nbsp;&nbsp;当前余额：<span id="cash"></span></span>
+							</div>
+						</div>
+            <ul id="article-wrapper">
+            </ul>
+            <div class="creating-loading" data-flex="main:center dir:top cross:center">
+              <div class="semi-circle-spin"></div>
+            </div>
+            <div id="fixed-block">
+              <div class="precast-block" id="kw-target-box" data-flex="main:left cross:center">
+                <div id="target-box" class="box">
+                  <input type="text" name="kw-target" placeholder="来问点什么吧" id="kw-target">
+                </div>
+                <div class="right-btn layout-bar">
+                  <p class="btn ai-btn bright-btn" id="ai-btn" onclick="aiClick()" data-flex="main:center cross:center"><i class="iconfont icon-wuguan"></i>发送</p>
+                </div>
+              </div>
+            </div>
+        </div></article>
+       
+      </div>
+    </div>
+  </div>
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+  <script src="js/wangEditor.min.js"></script>
+  <script src="https://clipboardjs.com/dist/clipboard.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/tippy.js/6.3.7/tippy-bundle.umd.js"></script>
+  <script src="js/toast.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery-tags-input@1.3.5/dist/jquery.tagsinput.min.js"></script>
+<script type="text/javascript">
+var apikey = ''
+  // input 监听回车事件
+    $("#kw-target").keydown(function (e){
+    	// 当 keyCode 是13时,是回车操作
+       if (e.keyCode == 13){
+        // 编写业务代码...
+       
+    	// 取消之前的keydown事件
+          aiClick();
+       }
+    })
+function keyclick(){
+apikey = $('#apikey').val()
+    if (!apikey) {
+      return toast({ time: 1000, msg: '请输入你的APIKey' })
+    }
+   $.ajax({
+      url: 'chatgptApi.php?id=3&apikey='+ apikey,//api接口
+      type: 'get',
+      data: {},
+      dataType: "text",
+      success: function (res) {
+
+
+        res_ = JSON.parse(res)
+        var title = res_.data.title;
+        if(res_.data.html==null){
+            res_.data.html = "当前APIKey错误";
+            }
+
+        if(JSON.parse(res).data.html==null)
+                toast({ time: 1000, msg: '当前APIKey错误' })
+
+        else{
+                toast({ time: 1000, msg: '刷新成功，余额已刷新' })
+                $('#cash').text(res_.data.html)
+        }
+        $('#kw-target').val('')
+        $('.creating-loading').removeClass('isLoading')
+      }
+    })
+
+
+}
+  function aiClick() {
+    const safeHtml = $('#kw-target').val() || ''
+    if (!safeHtml) {
+      return toast({ time: 1000, msg: '来问点什么吧' })
+    }
+    createArticle()
+  }
+  function createArticle() {
+    apikey = $('#apikey').val()
+    const safeHtml = window.encodeURIComponent($('#kw-target').val()) || ''
+    if (!safeHtml) {
+      return toast({ time: 1000, msg: '来问点什么吧' })
+    }
+    var user_id = '';
+    var locationHref = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    locationHref.forEach(function (val) {
+        var parameter = val.slice(0, val.indexOf('=')); //属性
+        var data = val.slice(val.indexOf('=') + 1); //值
+        if(parameter == 'user_id'){
+            user_id = data;
+        }
+    })
+
+    $('#article').removeClass('created')
+    $('.creating-loading').addClass('isLoading')
+    
+    $.ajax({
+      url: 'chatgptApi.php?text=' + safeHtml + '&id=' + $("#id").val()+ '&apikey='+ apikey,//api接口
+      type: 'get',
+      data: {},
+      dataType: "text",
+      success: function (res) {
+        // if(res.code !== 200){
+        //     alert(res.msg);
+        //     return;
+        // }
+
+        res_ = JSON.parse(res)
+        var title = res_.data.title;
+        if(res_.data.html==null){
+res_.data.html = "当前APIKey错误";
+}
+        var content = res_.data.html;
+        var imageurl=res_.data.url;
+        var number = new Date().getSeconds();
+
+        $('#article-wrapper').append('<li class="article-title">' + title + '<li>')
+        if(imageurl==null){
+            $('#article-wrapper').append('<li class="article-content" id=content'+number+'><pre></pre></li>')
+            var i = 0;
+            var interval;
+            if (i > content.length){
+               clearInterval(interval)
+            } else {
+              interval = setInterval(() => {
+                i++;
+                str = content.substr(0, i);
+                if (i > content.length) {
+                  $('#content' + number).find('pre').text(str)
+                  clearInterval(interval)
+                } else {
+                  $('#content' + number).find('pre').text(str + "｜")
+                }
+              }, 60);
+            }
+        }else{
+            $('#article-wrapper').append('<li class="article-content" id=content'+number+'><img src="'+imageurl+'"></li>')
+        }
+        if(JSON.parse(res).data.html==null || JSON.parse(res).data.url==null)
+                toast({ time: 1000, msg: 'AI生成成功' })
+
+        else{
+                toast({ time: 1000, msg: 'AI生成失败' })
+        }
+        $('#kw-target').val('')
+        $('.creating-loading').removeClass('isLoading')
+      }
+    })
+  }
+
+</script>
+
+
+
+</body></html>
